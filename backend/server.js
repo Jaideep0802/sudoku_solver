@@ -1,15 +1,17 @@
 import express from 'express';
-import dotenv from 'dotenv';
-
+import cors from 'cors';
 
 
 const app = express();
+
+app.use(cors());
 
 const port = process.env.PORT || 3000;
 
 app.listen(port, () =>{
     console.log(`Serve at http://localhost:${port}`)
 })
+
 
 app.use(express.json());
 
