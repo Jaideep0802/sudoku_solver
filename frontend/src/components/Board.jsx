@@ -25,7 +25,7 @@ function Board() {
 
     const getBoard = async () => {
         try {
-            const response = await axios.post("https://sudoku-production-d4ee.up.railway.app/", { board });
+            const response = await axios.post("https://sudoku-production-d4ee.up.railway.app/solve", { board });
             console.log("API Response:", response.data.board);
               if (!response.data || !Array.isArray(response.data.board)) {
                     throw new Error("Invalid board data from API");
