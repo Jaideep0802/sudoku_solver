@@ -22,8 +22,53 @@ app.get("/", (req, res) => {
 app.post("/solve", (req, res) => {
     const { board } = req.body;
 
+    const isValidInitialBoard = (board) => {
+    
+    for (let i = 0; i < 9; i++) {
+        const seen = new Set();
+        for (let j = 0; j < 9; j++) {
+            const val = board[i][j];
+            if (val !== 0) {
+                if (seen.has(val)) return false;
+                seen.add(val);
+            }
+        }
+    }
+
+    for (let j = 0; j < 9; j++) {
+        const seen = new Set();
+        for (let i = 0; i < 9; i++) {
+            const val = board[i][j];
+            if (val !== 0) {
+                if (seen.has(val)) return false;
+                seen.add(val);
+            }
+        }
+    }
+    for (let boxRow = 0; boxRow < 3; boxRow++) {
+        for (let boxCol = 0; boxCol < 3; boxCol++) {
+            const seen = new Set();
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    const val = board[boxRow * 3 + i][boxCol * 3 + j];
+                    if (val !== 0) {
+                        if (seen.has(val)) return false;
+                        seen.add(val);
+                    }
+                }
+            }
+        }
+    }
+    return true;
+};
+
+
     if (!board || !Array.isArray(board) || board.length !== 9 || board.some(row => !Array.isArray(row) || row.length !== 9)) {
         return res.status(400).json({ message: "Invalid board format" });
+    }
+
+    if (!isValidInitialBoard(board)) {
+        return res.status(400).json({ message: "Invalid Sudoku board: conflicting initial numbers." });
     }
 
     const boardCopy = board.map(row => row.slice());
