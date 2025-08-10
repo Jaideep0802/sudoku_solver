@@ -25,7 +25,7 @@ function Board() {
 
     const getBoard = async () => {
         try {
-            const response = await axios.post("https://sudoku-backend-dif5.onrender.com/solve", { board });
+            const response = await axios.post("https://sudoku-api-gold.vercel.app/api/solve", { board });
             console.log("API Response:", response.data.board);
               if (!response.data || !Array.isArray(response.data.board)) {
                     throw new Error("Invalid board data from API");
