@@ -35,20 +35,23 @@ function Board() {
   };
 
 
-    const getBoard = async () => {
-        try {
-            const response = await axios.post("https://sudoku-api-gold.vercel.app/api/solve", { board });
-            console.log("API Response:", response.data.board);
-              if (!response.data || !Array.isArray(response.data.board)) {
-                    throw new Error("Invalid board data from API");
-                }
-            setBoard(response.data.board);
-        } catch (error) {
-            if(error.response){
-                alert(error.response.data.message);
-            }
-            console.error("Error fetching API:", error);
-        }
+  const getBoard = async () => {
+  try {
+    const response = await axios.post(`${API_BASE}/api/solve`, { board });
+
+    if (!response.data || !Array.isArray(response.data.board)) {
+      throw new Error("Invalid board data from API");
+    }
+
+    setBoard(response.data.board);
+  } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data.message || "Something went wrong");
+    } else {
+      toast.error("Network error");
+    }
+    console.error("Error fetching API:", error);
+  }
 };
 
   return (
